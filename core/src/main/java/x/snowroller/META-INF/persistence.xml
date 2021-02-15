@@ -1,0 +1,15 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+    http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+    version="2.1">
+	<persistence-unit name="JPALabb" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<class>x.snowroller.User</class>
+		<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;integratedSecurity=true;database=everyloop"/>
+			<property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+			<property name = "hibernate.show_sql" value = "true" />
+      </properties>
+	</persistence-unit>
+</persistence>
