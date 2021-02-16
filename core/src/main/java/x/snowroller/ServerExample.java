@@ -59,13 +59,35 @@ public class ServerExample {
 
                 //använder createUser metoden i klassen UserHandler. Skickar in värden till databasen.
                 UserHandler.createUser("", urlFirstName, urlLastName);
-            } else if (requestedUrl.equals("/getAll")){
-                var output = new PrintWriter(socket.getOutputStream());
-                JsonConverter converter = new JsonConverter();
 
+                System.out.println(urlFirstName + " " + urlLastName + "has been added to database.");
                 byte[] page = FileReader.readFromFile(file);
 
-                var json = converter.convertToJson(UserHandler.getAll());
+                String contentType = Files.probeContentType(file.toPath());
+
+                output.println("HTTP/1.1 200 OK");
+                output.println("Content-Length:" + page.length);
+                output.println("Content-Type:" + contentType);
+                output.println("");
+                //output.print(page);
+                output.flush();
+                var dataOut = new BufferedOutputStream(socket.getOutputStream());
+                dataOut.flush();
+                socket.close();
+
+            } else if (requestedUrl.equals("/getAll")){
+//                UserHandler.getAll();
+                var output = new PrintWriter(socket.getOutputStream());
+                byte[] page = FileReader.readFromFile(file);
+
+                var todos = new Todos();
+                todos.todos = new ArrayList<>();
+                todos.todos.add(new Todo("1", "Todo 1", false));
+                todos.todos.add(new Todo("2", "Todo 2", false));
+
+                JsonConverter converter = new JsonConverter();
+
+                var json = converter.convertToJson(todos);
                 System.out.println(json);
 
                 output.println("HTTP/1.1 200 OK");
@@ -73,6 +95,7 @@ public class ServerExample {
                 output.println("Content-Type: application/json");
                 output.println("");
                 output.flush();
+
                 var dataOut = new BufferedOutputStream(socket.getOutputStream());
                 if (requestType.equals("GET")) {
                     dataOut.write(page);
@@ -82,9 +105,8 @@ public class ServerExample {
                     dataOut.flush();
                     socket.close();
                 }
-            }
 
-            if (requestedUrl.equals("/index.html")) {
+            } else if (requestedUrl.equals("/index.html")) {
                 var output = new PrintWriter(socket.getOutputStream());
 
                 byte[] page = FileReader.readFromFile(file);
@@ -106,6 +128,7 @@ public class ServerExample {
                     dataOut.flush();
                     socket.close();
                 }
+
             } else if (requestedUrl.equals("/cat.png")) {
                 var output = new PrintWriter(socket.getOutputStream());
 
@@ -128,6 +151,7 @@ public class ServerExample {
                     dataOut.flush();
                     socket.close();
                 }
+
             } else if (requestedUrl.equals("/stylesheet.css")) {
                 var output = new PrintWriter(socket.getOutputStream());
 
@@ -150,6 +174,7 @@ public class ServerExample {
                     dataOut.flush();
                     socket.close();
                 }
+
             } else if (requestedUrl.equals("/javascriptfile.js")) {
                 var output = new PrintWriter(socket.getOutputStream());
 
@@ -172,6 +197,7 @@ public class ServerExample {
                     dataOut.flush();
                     socket.close();
                 }
+
             } else {
                 var output = new PrintWriter(socket.getOutputStream());
 
