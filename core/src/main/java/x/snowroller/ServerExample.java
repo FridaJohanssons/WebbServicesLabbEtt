@@ -125,7 +125,7 @@ public class ServerExample {
                     socket.close();
                 }
             }
-            else if (requestedUrl.equals("/index.html")) {
+            if (requestedUrl.equals("/index.html")) {
                 var output = new PrintWriter(socket.getOutputStream());
 
                 byte[] page = FileReader.readFromFile(file);
