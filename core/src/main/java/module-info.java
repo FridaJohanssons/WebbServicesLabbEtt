@@ -27,6 +27,7 @@ module core {
         requires x.snowroller.spi;
         requires x.snowroller.fileutils;
         requires com.google.gson;
+        requires org.hibernate.orm.core;
 
         requires java.sql;
         requires net.bytebuddy;

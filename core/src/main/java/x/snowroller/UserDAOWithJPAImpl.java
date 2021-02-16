@@ -9,6 +9,7 @@ public class UserDAOWithJPAImpl implements UserDao {
 
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPALabb");
 
+
     @Override
     public void createUser(User a) {
         EntityManager em = emf.createEntityManager();

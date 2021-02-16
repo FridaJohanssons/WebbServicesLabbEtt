@@ -8,9 +8,6 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -45,6 +42,7 @@ public class ServerExample {
 
             File file = new File("web" + File.separator + requestedUrl);
 
+
             if (requestType.equals("POST")) {
                 var output = new PrintWriter(socket.getOutputStream());
                 //localhost:5050/?anna&antonsson
@@ -75,27 +73,48 @@ public class ServerExample {
                 dataOut.flush();
                 socket.close();
 
+//            } else if (requestedUrl.equals("/getAll")){
+//                var output = new PrintWriter(socket.getOutputStream());
+//                byte[] page = FileReader.readFromFile(file);
+//
+//                var todos = new Todos();
+//                todos.todos = new ArrayList<>();
+//                todos.todos.add(new Todo("1", "Todo 1", false));
+//                todos.todos.add(new Todo("2", "Todo 2", false));
+//
+//                JsonConverter converter = new JsonConverter();
+//
+//                var json = converter.convertToJson(todos);
+//                System.out.println(json);
+//
+//                output.println("HTTP/1.1 200 OK");
+//                output.println("Content-Length:" + page.length);
+//                output.println("Content-Type: application/json");
+//                output.println("");
+//                output.flush();
+//
+//                var dataOut = new BufferedOutputStream(socket.getOutputStream());
+//                if (requestType.equals("GET")) {
+//                    dataOut.write(page);
+//                    dataOut.flush();
+//                    socket.close();
+//                } else if (requestType.equals("HEAD")) {
+//                    dataOut.flush();
+//                    socket.close();
+//                }
             } else if (requestedUrl.equals("/getAll")){
-//                UserHandler.getAll();
                 var output = new PrintWriter(socket.getOutputStream());
-                byte[] page = FileReader.readFromFile(file);
-
-                var todos = new Todos();
-                todos.todos = new ArrayList<>();
-                todos.todos.add(new Todo("1", "Todo 1", false));
-                todos.todos.add(new Todo("2", "Todo 2", false));
-
                 JsonConverter converter = new JsonConverter();
 
-                var json = converter.convertToJson(todos);
+                byte[] page = FileReader.readFromFile(file);
+
+                var json = converter.convertToJson(UserHandler.getAll());
                 System.out.println(json);
 
                 output.println("HTTP/1.1 200 OK");
                 output.println("Content-Length:" + page.length);
                 output.println("Content-Type: application/json");
                 output.println("");
-                output.flush();
-
                 var dataOut = new BufferedOutputStream(socket.getOutputStream());
                 if (requestType.equals("GET")) {
                     dataOut.write(page);
@@ -105,8 +124,8 @@ public class ServerExample {
                     dataOut.flush();
                     socket.close();
                 }
-
-            } else if (requestedUrl.equals("/index.html")) {
+            }
+            else if (requestedUrl.equals("/index.html")) {
                 var output = new PrintWriter(socket.getOutputStream());
 
                 byte[] page = FileReader.readFromFile(file);
@@ -115,7 +134,7 @@ public class ServerExample {
 
                 output.println("HTTP/1.1 200 OK");
                 output.println("Content-Length:" + page.length);
-                output.println("Content-Type:" + contentType);  //application/json
+                output.println("Content-Type:" + contentType);
                 output.println("");
                 //output.print(page);
                 output.flush();
@@ -184,9 +203,8 @@ public class ServerExample {
 
                 output.println("HTTP/1.1 200 OK");
                 output.println("Content-Length:" + page.length);
-                output.println("Content-Type:" + contentType);  //application/json
+                output.println("Content-Type:" + contentType);
                 output.println("");
-                //output.print(page);
                 output.flush();
                 var dataOut = new BufferedOutputStream(socket.getOutputStream());
                 if (requestType.equals("GET")) {
@@ -197,18 +215,15 @@ public class ServerExample {
                     dataOut.flush();
                     socket.close();
                 }
-
             } else {
-                var output = new PrintWriter(socket.getOutputStream());
-
-                output.println("HTTP/1.1 404");
-                output.println("Content-Length: 0");
-                output.flush();
-            }
-            var dataOut = new BufferedOutputStream(socket.getOutputStream());
-//            dataOut.write(page);
-            dataOut.flush();
-            socket.close();
+                    var output = new PrintWriter(socket.getOutputStream());
+                    output.println("HTTP/1.1 404");
+                    output.println("Content-Length: 0");
+                    output.flush();
+                    var dataOut = new BufferedOutputStream(socket.getOutputStream());
+                    dataOut.flush();
+                    socket.close();
+                }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -229,48 +244,15 @@ public class ServerExample {
 ////        } else return "text/plain";
 ////    }
 
-//    private static void handleTodosURL() {
+//    private static void createJsonResponse() {
+//        var todos = new Todos();
+//        todos.todos = new ArrayList<>();
+//        todos.todos.add(new Todo("1", "Todo 1", false));
+//        todos.todos.add(new Todo("2", "Todo 2", false));
 //
+//        JsonConverter converter = new JsonConverter();
 //
+//        var json = converter.convertToJson(todos);
+//        System.out.println(json);
 //    }
-
-//    private static String readHeaders(BufferedReader input) throws IOException {
-//        String requestedUrl = "";
-//        while (true) {
-//            String headerLine = input.readLine();
-//            if( headerLine.startsWith("GET")){
-//                requestedUrl = headerLine.split(" ")[1];
-//            }
-//            else if(headerLine.startsWith("HEAD")){
-//                requestedUrl = headerLine.split(" ")[1];
-//            }
-//            else if(headerLine.startsWith("POST")){
-//                requestedUrl = headerLine.split(" ")[1];
-//            }
-//            //kod som gör man kan sätta in sökparametrar. typ user?=börje osv.
-//
-//            System.out.println(headerLine);
-//            if (headerLine.isEmpty())
-//                break;
-//        }
-//        return requestedUrl;
-//    }
-
-    private static void createJsonResponse() {
-        var todos = new Todos();
-        todos.todos = new ArrayList<>();
-        todos.todos.add(new Todo("1", "Todo 1", false));
-        todos.todos.add(new Todo("2", "Todo 2", false));
-
-        JsonConverter converter = new JsonConverter();
-
-        var json = converter.convertToJson(todos);
-        System.out.println(json);
-    }
 }
-
-//    private static String handleProductsURL(){
-//        return "";
-//    }
-//}
-

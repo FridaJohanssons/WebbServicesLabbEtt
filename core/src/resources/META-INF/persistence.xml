@@ -10,7 +10,8 @@
 		<class>x.snowroller.ServerExample</class>
 		<class>x.snowroller.UserDAOWithJPAImpl</class>
 		<properties>
-			<property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;integratedSecurity=true;database=everyloop"/>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;username=USERNAME;password;PASSWORD;database;DATABASE"/>
 			<property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
 			<property name = "hibernate.show_sql" value = "false" />
       </properties>
