@@ -87,8 +87,7 @@
         </plugins>
         <resources>
             <resource>
-                <directory>web</directory><!-- from -->
-                <targetPath>${project.build.directory}/web</targetPath><!-- to -->
+                <directory>C:\Users\mad_o\IdeaProjects\WebServicesGrupparbete-testarDatabas\core\src\resources</directory><!-- from -->
             </resource>
         </resources>
     </build>

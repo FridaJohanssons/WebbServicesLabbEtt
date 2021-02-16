@@ -53,8 +53,8 @@ public class ServerExample {
                 String fullName = requestedUrl.split("\\?")[1];
 
                 //urlFirstName tar ut anna
-                String urlFirstName = fullName.split("\\&")[0];
                 //urlLastName tar ut antonsson
+                String urlFirstName = fullName.split("\\&")[0];
                 String urlLastName = fullName.split("\\&")[1];
 
                 //använder createUser metoden i klassen UserHandler. Skickar in värden till databasen.
@@ -72,8 +72,16 @@ public class ServerExample {
                 output.println("Content-Length:" + page.length);
                 output.println("Content-Type: application/json");
                 output.println("");
-
-
+                output.flush();
+                var dataOut = new BufferedOutputStream(socket.getOutputStream());
+                if (requestType.equals("GET")) {
+                    dataOut.write(page);
+                    dataOut.flush();
+                    socket.close();
+                } else if (requestType.equals("HEAD")) {
+                    dataOut.flush();
+                    socket.close();
+                }
             }
 
             if (requestedUrl.equals("/index.html")) {
