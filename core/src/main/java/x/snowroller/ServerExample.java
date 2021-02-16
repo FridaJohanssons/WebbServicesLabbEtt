@@ -46,15 +46,34 @@ public class ServerExample {
             File file = new File("web" + File.separator + requestedUrl);
 
             if (requestType.equals("POST")) {
-                //localhost:5050/database/post?ola&amberntsson
+                var output = new PrintWriter(socket.getOutputStream());
+                //localhost:5050/?anna&antonsson
+
+                //fullName tar ut anna&antonsson
                 String fullName = requestedUrl.split("\\?")[1];
 
+                //urlFirstName tar ut anna
                 String urlFirstName = fullName.split("\\&")[0];
+                //urlLastName tar ut antonsson
                 String urlLastName = fullName.split("\\&")[1];
 
+                //använder createUser metoden i klassen UserHandler. Skickar in värden till databasen.
+                UserHandler.createUser("", urlFirstName, urlLastName);
+            } else if (requestedUrl.equals("/getAll")){
+                var output = new PrintWriter(socket.getOutputStream());
+                JsonConverter converter = new JsonConverter();
+
+                byte[] page = FileReader.readFromFile(file);
+
+                var json = converter.convertToJson(UserHandler.getAll());
+                System.out.println(json);
+
+                output.println("HTTP/1.1 200 OK");
+                output.println("Content-Length:" + page.length);
+                output.println("Content-Type: application/json");
+                output.println("");
 
 
-                //HÄR SKA VI SKICKA NÅT OM MAN EFTERFRÅGAR VISSA PARAMTERAR. TEX USER BÖRJE OSV
             }
 
             if (requestedUrl.equals("/index.html")) {
