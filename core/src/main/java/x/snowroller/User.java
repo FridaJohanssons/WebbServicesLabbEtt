@@ -1,10 +1,7 @@
 package x.snowroller;
 
-
 import javax.persistence.*;
 
-
-//SKAPA EN NY TABELL MED FÄRRE VARIABLER. INTE HA USERS FÖR DEN HAR FÖR MÅNGA
 @Entity
 @Table(name="UserWeb")
 public class User {

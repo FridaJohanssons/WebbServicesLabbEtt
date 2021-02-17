@@ -1,9 +1,6 @@
 package x.snowroller;
 
 import x.snowroller.fileutils.FileReader;
-import x.snowroller.models.Todo;
-import x.snowroller.models.Todos;
-
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -11,7 +8,7 @@ import java.nio.file.Files;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ServerExample {
+public class Server {
 
     public static void main(String[] args) {
 
@@ -45,7 +42,7 @@ public class ServerExample {
 
             if (requestType.equals("POST")) {
                 var output = new PrintWriter(socket.getOutputStream());
-                //localhost:5050/?anna&antonsson
+                //exempel adress är http://localhost:5050/?anna&antonsson
 
                 //fullName tar ut anna&antonsson
                 String fullName = requestedUrl.split("\\?")[1];
@@ -67,42 +64,13 @@ public class ServerExample {
                 output.println("Content-Length:" + page.length);
                 output.println("Content-Type:" + contentType);
                 output.println("");
-                //output.print(page);
                 output.flush();
                 var dataOut = new BufferedOutputStream(socket.getOutputStream());
                 dataOut.flush();
                 socket.close();
 
-//            } else if (requestedUrl.equals("/getAll")){
-//                var output = new PrintWriter(socket.getOutputStream());
-//                byte[] page = FileReader.readFromFile(file);
-//
-//                var todos = new Todos();
-//                todos.todos = new ArrayList<>();
-//                todos.todos.add(new Todo("1", "Todo 1", false));
-//                todos.todos.add(new Todo("2", "Todo 2", false));
-//
-//                JsonConverter converter = new JsonConverter();
-//
-//                var json = converter.convertToJson(todos);
-//                System.out.println(json);
-//
-//                output.println("HTTP/1.1 200 OK");
-//                output.println("Content-Length:" + page.length);
-//                output.println("Content-Type: application/json");
-//                output.println("");
-//                output.flush();
-//
-//                var dataOut = new BufferedOutputStream(socket.getOutputStream());
-//                if (requestType.equals("GET")) {
-//                    dataOut.write(page);
-//                    dataOut.flush();
-//                    socket.close();
-//                } else if (requestType.equals("HEAD")) {
-//                    dataOut.flush();
-//                    socket.close();
-//                }
             } else if (requestedUrl.equals("/getAll")){
+                //hämtar alla Users från databasen
                 var output = new PrintWriter(socket.getOutputStream());
                 JsonConverter converter = new JsonConverter();
 
@@ -136,7 +104,6 @@ public class ServerExample {
                 output.println("Content-Length:" + page.length);
                 output.println("Content-Type:" + contentType);
                 output.println("");
-                //output.print(page);
                 output.flush();
                 var dataOut = new BufferedOutputStream(socket.getOutputStream());
                 if (requestType.equals("GET")) {
@@ -157,9 +124,8 @@ public class ServerExample {
 
                 output.println("HTTP/1.1 200 OK");
                 output.println("Content-Length:" + page.length);
-                output.println("Content-Type:" + contentType);  //application/json
+                output.println("Content-Type:" + contentType);
                 output.println("");
-                //output.print(page);
                 output.flush();
                 var dataOut = new BufferedOutputStream(socket.getOutputStream());
                 if (requestType.equals("GET")) {
@@ -180,9 +146,8 @@ public class ServerExample {
 
                 output.println("HTTP/1.1 200 OK");
                 output.println("Content-Length:" + page.length);
-                output.println("Content-Type:" + contentType);  //application/json
+                output.println("Content-Type:" + contentType);
                 output.println("");
-                //output.print(page);
                 output.flush();
                 var dataOut = new BufferedOutputStream(socket.getOutputStream());
                 if (requestType.equals("GET")) {
@@ -228,31 +193,4 @@ public class ServerExample {
             e.printStackTrace();
         }
     }
-
-//    nedanstående metod används ej. probeContent tror jag gör jobbet istället?
-//    private static String contentType(String requestedUrl) {
-////        if (requestedUrl.endsWith(".html")) {
-////            return "text/html";
-////        } else if (requestedUrl.endsWith(".png")) {
-////            return "image/png";
-////        } else if (requestedUrl.endsWith(".pdf")) {
-////            return "application/pdf";
-////        } else if (requestedUrl.endsWith(".js")) {
-////            return "text/javascript";
-////        } else if (requestedUrl.endsWith(".css")) {
-////            return "text/css";
-////        } else return "text/plain";
-////    }
-
-//    private static void createJsonResponse() {
-//        var todos = new Todos();
-//        todos.todos = new ArrayList<>();
-//        todos.todos.add(new Todo("1", "Todo 1", false));
-//        todos.todos.add(new Todo("2", "Todo 2", false));
-//
-//        JsonConverter converter = new JsonConverter();
-//
-//        var json = converter.convertToJson(todos);
-//        System.out.println(json);
-//    }
 }
