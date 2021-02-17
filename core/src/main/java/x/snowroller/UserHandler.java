@@ -4,9 +4,9 @@ import java.util.List;
 
 public class UserHandler {
 
-    public static void createUser(String id, String firstName, String lastName){
+    public static void createUser(String firstName, String lastName){
     UserDao udao = new UserDAOWithJPAImpl();
-    User a = new User(id, firstName, lastName);
+    User a = new User(firstName, lastName);
     udao.createUser(a);}
 
     public static List<User> getAll(){

@@ -10,14 +10,14 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
     @Column(name = "FirstName")
     private String firstName;
     @Column(name = "Lastname")
     private String lastName;
 
-    public User(String id, String firstName, String lastName) {
+    public User(String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;
         this.firstName = lastName;

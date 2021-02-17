@@ -56,7 +56,7 @@ public class ServerExample {
                 String urlLastName = fullName.split("\\&")[1];
 
                 //använder createUser metoden i klassen UserHandler. Skickar in värden till databasen.
-                UserHandler.createUser("", urlFirstName, urlLastName);
+                UserHandler.createUser(urlFirstName, urlLastName);
 
                 System.out.println(urlFirstName + " " + urlLastName + "has been added to database.");
                 byte[] page = FileReader.readFromFile(file);
@@ -217,7 +217,7 @@ public class ServerExample {
                 }
             } else {
                     var output = new PrintWriter(socket.getOutputStream());
-                    output.println("HTTP/1.1 404");
+                    output.println("HTTP/1.1 404 File not found");
                     output.println("Content-Length: 0");
                     output.flush();
                     var dataOut = new BufferedOutputStream(socket.getOutputStream());
